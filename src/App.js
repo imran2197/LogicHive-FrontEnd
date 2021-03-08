@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react';
+import "./App.css";
+import OurServices from './components/OurServices';
 
-function App() {
+const App = () => {
+  const [data, setData] = useState([]);
+
+    useEffect(() => {
+        fetch("http://localhost:9999/services")
+        .then(res => res.json())
+        .then(res => setData(res));
+    }, [])
+    console.log("data",data);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+        <h1 className="header">Our Services</h1>
+        <div className="cards">
+          {
+            data.map((item) => (
+              <OurServices item={item} />
+            ))
+          }
+        </div>
+    </>
+  )
 }
 
 export default App;
